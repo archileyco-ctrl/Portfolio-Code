@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ Code ] # Sesuaikan dengan nama branch kamu (misal: main atau master)
+    branches: [ Code ]
 
 jobs:
   build-and-deploy:
@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
 
-      - - name: Install and Build
+      - name: Install and Build
         working-directory: ./frontend
         run: |
           npm install --legacy-peer-deps
