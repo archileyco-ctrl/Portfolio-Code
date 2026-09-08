@@ -1,6 +1,6 @@
-import axios from "axios";
+  import axios from "axios";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const PUBLIC_URL = process.env.PUBLIC_URL || "/Portfolio-Code";
 
 export const WORLDS = {
   anomaly: {
@@ -26,109 +26,147 @@ export const WORLDS = {
     index: "03",
     title: "Work",
     titleLines: ["Design", "Work"],
-    path: "/work",
     description:
       "Applied practice across supervision, building design and competition entries — where architectural ideas meet real briefs, sites and constraints.",
     categories: ["Supervisor", "Building Design", "Competition Design"],
   },
 };
 
-export const getToken = () => localStorage.getItem("editor_token");
-export const setToken = (t) => localStorage.setItem("editor_token", t);
-export const clearToken = () => localStorage.removeItem("editor_token");
-export const authHeaders = () => ({
-  headers: { Authorization: `Bearer ${getToken()}` },
-});
+/* =========================================================
+   STATIC DATA
+   ========================================================= */
+
+const PROJECTS_URL = `${PUBLIC_URL}/data/projects.json`;
+
+const readProjects = async () => {
+  const { data } = await axios.get(PROJECTS_URL, {
+    headers: {
+      "Cache-Control": "no-cache",
+    },
+  });
+
+  return Array.isArray(data) ? data : data.projects || [];
+};
+
+/* =========================================================
+   PUBLIC PROJECT API
+   ========================================================= */
 
 export const fetchPublished = async (world) => {
-  const { data } = await axios.get(`${API}/projects`, {
-    params: world ? { world } : {},
-  });
-  return data;
+  const projects = await readProjects();
+
+  return projects.filter(
+    (project) =>
+      project.published === true &&
+      (!world || project.world === world)
+  );
 };
 
 export const fetchProject = async (slug) => {
-  const { data } = await axios.get(`${API}/projects/${slug}`);
-  return data;
+  const projects = await readProjects();
+
+  const project = projects.find(
+    (item) => item.slug === slug && item.published === true
+  );
+
+  if (!project) {
+    throw new Error("Project not found");
+  }
+
+  return project;
 };
 
-export const adminLogin = async (passcode) => {
-  const { data } = await axios.post(`${API}/auth/login`, { passcode });
-  return data;
+/* =========================================================
+   TEMPORARY EDITOR API
+   ========================================================= */
+
+export const getToken = () => sessionStorage.getItem("github_token");
+
+export const setToken = (token) =>
+  sessionStorage.setItem("github_token", token);
+
+export const clearToken = () =>
+  sessionStorage.removeItem("github_token");
+
+export const authHeaders = () => ({
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+    Accept: "application/vnd.github+json",
+  },
+});
+
+/*
+  These functions are intentionally temporary placeholders.
+
+  The next step will replace them with GitHub Contents API
+  operations so the editor can create/update/delete projects.
+*/
+
+export const adminLogin = async () => {
+  throw new Error("Old passcode login has been disabled.");
 };
 
 export const adminVerify = async () => {
-  const { data } = await axios.get(`${API}/auth/verify`, authHeaders());
-  return data;
+  throw new Error("GitHub authentication migration is not finished yet.");
 };
 
 export const adminFetchAll = async () => {
-  const { data } = await axios.get(`${API}/admin/projects`, authHeaders());
-  return data;
+  return readProjects();
 };
 
 export const adminFetchBySlug = async (slug) => {
-  const { data } = await axios.get(
-    `${API}/admin/projects/by-slug/${slug}`,
-    authHeaders()
-  );
-  return data;
+  const projects = await readProjects();
+  return projects.find((project) => project.slug === slug) || null;
 };
 
-export const adminCreate = async (payload) => {
-  const { data } = await axios.post(`${API}/admin/projects`, payload, authHeaders());
-  return data;
+export const adminCreate = async () => {
+  throw new Error("GitHub editor migration is not finished yet.");
 };
 
-export const adminUpdate = async (id, payload) => {
-  const { data } = await axios.put(`${API}/admin/projects/${id}`, payload, authHeaders());
-  return data;
+export const adminUpdate = async () => {
+  throw new Error("GitHub editor migration is not finished yet.");
 };
 
-export const adminDelete = async (id) => {
-  const { data } = await axios.delete(`${API}/admin/projects/${id}`, authHeaders());
-  return data;
+export const adminDelete = async () => {
+  throw new Error("GitHub editor migration is not finished yet.");
 };
 
-export const adminReorder = async (ids) => {
-  const { data } = await axios.post(`${API}/admin/projects/reorder`, { ids }, authHeaders());
-  return data;
+export const adminReorder = async () => {
+  throw new Error("GitHub editor migration is not finished yet.");
 };
 
-export const adminUpload = async (files) => {
-  const form = new FormData();
-  for (const f of files) form.append("files", f);
-  const { data } = await axios.post(`${API}/admin/uploads`, form, authHeaders());
-  return data.urls;
+export const adminUpload = async () => {
+  throw new Error("GitHub image upload migration is not finished yet.");
 };
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
 
 export const fetchAbout = async () => {
-  const { data } = await axios.get(`${API}/about`);
+  const { data } = await axios.get(`${PUBLIC_URL}/data/about.json`);
   return data;
 };
 
-export const adminUpdateAbout = async (payload) => {
-  const { data } = await axios.put(`${API}/admin/about`, payload, authHeaders());
-  return data;
+export const adminUpdateAbout = async () => {
+  throw new Error("GitHub About editor migration is not finished yet.");
 };
 
-export const adminChangePasscode = async (current_passcode, new_passcode) => {
-  const { data } = await axios.post(
-    `${API}/admin/change-passcode`,
-    { current_passcode, new_passcode },
-    authHeaders()
-  );
-  return data;
-};
+/* =========================================================
+   HOME INTRO
+   ========================================================= */
 
 export const fetchHomeIntro = async () => {
-  const { data } = await axios.get(`${API}/home-intro`);
+  const { data } = await axios.get(`${PUBLIC_URL}/data/home.json`);
   return data;
 };
 
-export const adminUpdateHomeIntro = async (bg_image) => {
-  const { data } = await axios.put(`${API}/admin/home-intro`, { bg_image }, authHeaders());
-  return data;
+export const adminUpdateHomeIntro = async () => {
+  throw new Error("GitHub Home editor migration is not finished yet.");
 };
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
 export const pad = (n) => String(n + 1).padStart(2, "0");
