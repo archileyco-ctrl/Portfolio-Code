@@ -152,6 +152,10 @@ export const adminUpdateAbout = async () => {
   throw new Error("GitHub About editor migration is not finished yet.");
 };
 
+export const adminChangePasscode = async () => {
+  throw new Error("Passcode authentication has been removed.");
+};
+
 /* =========================================================
    HOME INTRO
    ========================================================= */
