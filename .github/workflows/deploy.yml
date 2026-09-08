@@ -43,6 +43,9 @@ jobs:
         run: yarn build
         env:
           CI: false
+          
+      - name: Prepare GitHub Pages routes
+        run: cp frontend/build/index.html frontend/build/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
