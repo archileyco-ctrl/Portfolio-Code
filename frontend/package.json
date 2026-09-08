@@ -1,8 +1,9 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
+"name": "frontend",
+"version": "0.1.0",
+"private": true,
+"homepage": "https://archileyco-ctrl.github.io/Portfolio-Code",
+"dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
