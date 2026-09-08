@@ -52,7 +52,7 @@ function App() {
   return (
     <div className="App">
       <Toaster position="bottom-right" />
-      <BrowserRouter>
+      <BrowserRouter basename="/Portfolio-Code">
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
