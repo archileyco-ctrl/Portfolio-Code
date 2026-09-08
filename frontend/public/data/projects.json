@@ -1,4 +1,59 @@
 {
   "version": 1,
-  "projects": []
+  "projects": [
+    {
+      "id": "anomaly-001",
+      "slug": "the-falling-backrest",
+      "title": "The Falling Backrest",
+      "world": "anomaly",
+      "category": "Furniture",
+      "year": "2026",
+      "location": "Surakarta",
+      "role": "Designer",
+      "published": true,
+      "featured": true,
+
+      "cover": "/Portfolio-Code/images/anomaly/falling-backrest-01.jpg",
+
+      "summary": "An experimental chair exploring displacement and instability through a shifted backrest.",
+
+      "concept": "The backrest is intentionally displaced from its conventional position, creating a visual condition that suggests instability.",
+
+      "question": "What happens when a familiar element is pushed away from its expected position?",
+
+      "operations": [
+        "Displacement",
+        "Rotation",
+        "Compression"
+      ],
+
+      "transformation": "The original chair geometry is transformed through the controlled displacement of the backrest.",
+
+      "material": "Plywood and steel",
+
+      "construction": "Layered plywood structure combined with a steel supporting frame.",
+
+      "images": [
+        {
+          "src": "/Portfolio-Code/images/anomaly/falling-backrest-01.jpg",
+          "caption": "Front view",
+          "ratio": "landscape",
+          "crop": false
+        },
+        {
+          "src": "/Portfolio-Code/images/anomaly/falling-backrest-02.jpg",
+          "caption": "Side view",
+          "ratio": "portrait",
+          "crop": false
+        }
+      ],
+
+      "sections": [
+        {
+          "heading": "Design Process",
+          "text": "The design began by testing several degrees of displacement before arriving at the final configuration."
+        }
+      ]
+    }
+  ]
 }
